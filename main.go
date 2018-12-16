@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
 )
+
+import "strings"
 
 func main() {
 	// Список импортируемых пакетов
@@ -88,9 +89,13 @@ func main() {
 					// Поиск в одиночном импорте
 				} else {
 					println(str)
+					// Написать код получения одиночного пакета
 				}
 			}
 		}
 	}
 	fmt.Println(packages)
+
+	// Написать код установки полученных пакетов
+
 }
