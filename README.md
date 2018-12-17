@@ -7,11 +7,7 @@
 
 
 ```yaml
-go get -u github.com/naviarh/goget
-cd $GOPATH/src/github.com/naviarh/goget
-go build
-strip -sxv goget
-cp ./goget $GOPATH/bin
+wget -O - https://github.com/naviarh/goget/install.sh | bash
 ```
 
 
