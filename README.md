@@ -3,7 +3,7 @@
 
 
 
-**Installing the utility in Linux**
+**Install goget to linux:**
 
 
 ```sh
