@@ -6,8 +6,8 @@
 **Installing the utility in Linux**
 
 
-```yaml
-wget -O - https://github.com/naviarh/goget/install.sh | bash
+```sh
+wget -O - https://raw.githubusercontent.com/naviarh/goget/master/install.sh | bash
 ```
 
 
@@ -17,13 +17,13 @@ wget -O - https://github.com/naviarh/goget/install.sh | bash
 
 Update imported packages for all files in the current folder:
 
-```yaml
+```sh
 goget .
 ```
 
 Updating imported packages for specified files:
 
-```yaml
+```sh
 goget file1.go ~/file2.go
 ```
  
