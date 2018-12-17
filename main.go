@@ -118,7 +118,7 @@ func main() {
 			out += pack + "\n"
 		}
 	}
-	if out != "Errors:\n" {
+	if out != "Errors:\n\n" {
 		println(out)
 	}
 }
