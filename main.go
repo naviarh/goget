@@ -9,7 +9,7 @@ import (
 
 func main() {
 	// Список импортируемых пакетов
-	packages := []string{}
+	packages := make(map[string]bool)
 	// Список проверяемых файлов
 	files := []string{}
 	// Получение аргументов утилиты
@@ -65,52 +65,60 @@ func main() {
 				// ----------- Циклический поиск в составном импорте
 				if words[1] == "(" {
 					for i := n; i < len(text); i++ {
-						// Посимвольный поиск
+						text[i] = strings.Trim(string(text[i]), " 	") // удаление пробелов и табов
+						// Посимвольный перебор
 						for s := 0; s < len(text[i]); s++ {
 							switch string(text[i][s]) {
+							case "\"": // начало имени импортируемого пакета
+								packages[strings.Trim(string(text[i][s:]), "\" 	")] = false
+								s = len(text[i]) - 1
+							case "/": // комментарий
+								s = len(text[i]) - 1
 							case ")": // конец составного импорта
 								i = len(text) - 1
-							case "\"": // начало имени импортируемого пакета
-								packages = append(packages, "")
-								// Получение имени импортируемого пакета
-								for j := s + 1; j < len(text[i]); j++ {
-									s++ // инкремент счётчика символов текущей строки
-									// Проверка конца имени пакета
-									if string(text[i][j]) == "\"" {
-										break
-									}
-									// Очередная буква имени пакета
-									packages[len(packages)-1] += string(text[i][j])
-								}
 							}
 						}
 					}
 					// ------- Поиск в одиночном импорте
-				} else if string(words[1][0]) == "\"" {
-					packages = append(packages, "")
-					// Получение имени импортируемого пакета
-					for j := 1; j < len(words[1]); j++ {
-						// Проверка конца имени пакета
-						if string(words[1][j]) == "\"" {
-							break
+				} else {
+					// Посимвольный перебор
+					for s := 0; s < len(str); s++ {
+						if string(str[s]) == "\"" {
+							packages[strings.Trim(string(str[s:]), "\"")] = false
+							s = len(str)
 						}
-						// Очередная буква имени пакета
-						packages[len(packages)-1] += string(words[1][j])
 					}
 				}
 			}
 		}
 	}
+	// Обновление пакетов
 	println()
 	println("Found packages: ", len(packages))
 	println()
-	for _, pack := range packages {
-		print(pack, ": ")
+	for pack, _ := range packages {
+		print(pack, " ..   ")
 		out, err := exec.Command("go", "get", "-u", "-v", pack).Output()
 		if err != nil {
-			println("E: ", err.Error())
+			println(err.Error())
+			packages[pack] = true // метка ошибки для пакета
+		} else {
+			if string(out) != "" {
+				println(string(out))
+			} else {
+				println("Ok")
+			}
 		}
-		println(string(out), " Ok")
 	}
 	println()
+	// Вывод пакетов с ошибками обновления
+	out := "Errors:\n\n"
+	for pack, iserr := range packages {
+		if iserr {
+			out += pack + "\n"
+		}
+	}
+	if out != "Errors:\n" {
+		println(out)
+	}
 }
