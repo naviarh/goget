@@ -6,21 +6,29 @@
 **Installing the utility in Linux:**
 
 
-    go get github.com/naviarh/goget
-    cd $GOPATH/src/github.com/naviarh/goget
-    go build
-    strip -sxv goget
-    cp ./goget $GOPATH/bin
+```yaml
+go get github.com/naviarh/goget
+cd $GOPATH/src/github.com/naviarh/goget
+go build
+strip -sxv goget
+cp ./goget $GOPATH/bin
+```
 
 
 
 **How to use:**
 
 
-    // Update imported packages for all files in the current folder
-    goget .
+Update imported packages for all files in the current folder:
 
-    // Updating imported packages for specified files
-    goget file1.go ~/file2.go
+```yaml
+goget .
+```
+
+Updating imported packages for specified files:
+
+```yaml
+goget file1.go ~/file2.go
+```
  
 
