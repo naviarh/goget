@@ -3,7 +3,7 @@
 
 
 
-**Installing the utility in Linux:**
+**Installing the utility in Linux**
 
 
 ```yaml
@@ -16,7 +16,7 @@ cp ./goget $GOPATH/bin
 
 
 
-**How to use:**
+**How to use**
 
 
 Update imported packages for all files in the current folder:
