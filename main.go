@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
-
-import "strings"
 
 func main() {
 	// Список импортируемых пакетов
@@ -63,7 +62,7 @@ func main() {
 			// Проверка строки на команду импорта
 			words := strings.Split(str, " ")
 			if words[0] == "import" {
-				// Циклический поиск в составном импорте
+				// ----------- Циклический поиск в составном импорте
 				if words[1] == "(" {
 					for i := n; i < len(text); i++ {
 						// Посимвольный поиск
@@ -86,15 +85,23 @@ func main() {
 							}
 						}
 					}
-					// Поиск в одиночном импорте
-				} else {
-					println(str)
-					// Написать код получения одиночного пакета
+					// ------- Поиск в одиночном импорте
+				} else if string(words[1][0]) == "\"" {
+					packages = append(packages, "")
+					// Получение имени импортируемого пакета
+					for j := 1; j < len(words[1]); j++ {
+						// Проверка конца имени пакета
+						if string(words[1][j]) == "\"" {
+							break
+						}
+						// Очередная буква имени пакета
+						packages[len(packages)-1] += string(words[1][j])
+					}
 				}
 			}
 		}
 	}
-	fmt.Println(packages)
+	fmt.Println(len(packages), packages)
 
 	// Написать код установки полученных пакетов
 
