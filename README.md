@@ -7,7 +7,7 @@
 
 
 ```yaml
-go get github.com/naviarh/goget
+go get -u github.com/naviarh/goget
 cd $GOPATH/src/github.com/naviarh/goget
 go build
 strip -sxv goget
