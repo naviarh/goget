@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -101,8 +101,16 @@ func main() {
 			}
 		}
 	}
-	fmt.Println(len(packages), packages)
-
-	// Написать код установки полученных пакетов
-
+	println()
+	println("Found packages: ", len(packages))
+	println()
+	for _, pack := range packages {
+		print(pack, ": ")
+		out, err := exec.Command("go", "get", "-u", "-v", pack).Output()
+		if err != nil {
+			println("E: ", err.Error())
+		}
+		println(string(out), " Ok")
+	}
+	println()
 }
